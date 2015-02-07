@@ -22,7 +22,7 @@ public class ChatRepository {
                 sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
             }
             return sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
+        } catch (Exception ex) {
         }
         return null;
     }

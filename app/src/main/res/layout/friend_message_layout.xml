@@ -3,16 +3,43 @@
     android:id="@+id/RelativeLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#EFF6FF"
-    android:clickable="true" >
+    android:background="#FFFFFF"
+    android:clickable="true">
 
-    <TextView
-        android:id="@+id/text"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="#444444"
-        android:textSize="8sp" />
+        android:orientation="vertical"
+        android:background="#F0F0F0"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="150dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/dateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="#F0F0F0"
+            android:textColor="#CCCCCC"
+            android:textSize="16sp"
+            android:gravity="right"
+            android:text="18 сентября 2014 в 12:30" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:background="#F0F0F0"
+            android:textColor="#000000"
+            android:textSize="26sp"
+            android:gravity="left"
+            android:text="Привет? Как твои дела? Что делаешь? чем поиваешь?" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>

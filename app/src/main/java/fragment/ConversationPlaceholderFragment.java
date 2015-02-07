@@ -1,12 +1,5 @@
 package fragment;
 
-import helper.Config;
-
-import java.util.List;
-
-import model.MessageModel;
-import service.ChatService;
-import viewTemplate.MessageViewTemplate;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -16,101 +9,138 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.social.R;
 
+import java.util.List;
+
+import helper.Config;
+import model.MessageModel;
+import service.ChatService;
+import viewTemplate.MessageViewTemplate;
+
 public class ConversationPlaceholderFragment extends Fragment {
+    ImageView loadingImage;
+    ListView messageListView;
+    View rootView;
+    Context context;
+    String friendId;
 
-	ImageView loadingImage;
-	ListView messageListView;
-	View rootView;
-	Context context;
-	String friendId;
+    EditText message;
+    Button send;
+    ConversationAdapter chatAdapter;
 
-	public ConversationPlaceholderFragment() {
-	}
+    public ConversationPlaceholderFragment() {
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_conversation, container, false);
-		context = inflater.getContext();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_conversation, container, false);
+        context = inflater.getContext();
 
-		Bundle params = getArguments();
-		friendId = params.getString("friendId");
+        message = (EditText) rootView.findViewById(R.id.message);
+        send = (Button) rootView.findViewById(R.id.send);
+        send.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
-		new ConversationAsyncLogic().execute();
+                MessageModel m1 = new MessageModel();
+                m1.setId(Config.getInstance().getUserId());
+                m1.setText("Привет? Как твои дела? Что делаешь? чем поиваешь?");
+                m1.setTime("18 сентября 2014 в 12:30");
+                m1.setIsMyMessage("1");
+                chatAdapter.add(m1);
 
-		return rootView;
-	}
+                MessageModel m2 = new MessageModel();
+                m2.setId(Config.getInstance().getUserId());
+                m2.setText("Привет? Как твои дела? Что делаешь? чем поиваешь?");
+                m2.setTime("18 сентября 2014 в 12:30");
+                m2.setIsMyMessage("0");
+                chatAdapter.add(m2);
+            }
+        });
 
-	public class ConversationAsyncLogic extends AsyncTask<Void, Void, List<MessageModel>> {
-		@Override
-		protected List<MessageModel> doInBackground(Void... params) {
+        Bundle params = getArguments();
+        friendId = params.getString("friendId");
 
-			ChatService chatService = new ChatService();
-			List<MessageModel> messages = chatService.getAllMessages(Config.getInstance().getUserId(), Config.getInstance()
-					.getUserPassword(), friendId);
+        new ConversationAsyncLogic().execute();
 
-			return messages;
-		}
+        return rootView;
+    }
 
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			super.onProgressUpdate(values);
-		}
+    public class ConversationAsyncLogic extends AsyncTask<Void, Void, List<MessageModel>> {
+        @Override
+        protected List<MessageModel> doInBackground(Void... params) {
 
-		@Override
-		protected void onPostExecute(List<MessageModel> result) {
-			super.onPostExecute(result);
+            ChatService chatService = new ChatService();
+            List<MessageModel> messages = chatService.getAllMessages(Config.getInstance().getUserId(), Config.getInstance()
+                    .getUserPassword(), friendId);
 
-			ConversationAdapter chatAdapter = new ConversationAdapter(context, result);
+            return messages;
+        }
 
-			messageListView = (ListView) rootView.findViewById(R.id.messageListView);
-			messageListView.setAdapter(chatAdapter);
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
 
-			loadingImage = (ImageView) rootView.findViewById(R.id.loadingImage);
-			loadingImage.setBackgroundColor(Color.TRANSPARENT);
-		}
-	}
+        @Override
+        protected void onPostExecute(List<MessageModel> result) {
+            super.onPostExecute(result);
 
-	public class ConversationAdapter extends ArrayAdapter<MessageModel> {
+            chatAdapter = new ConversationAdapter(context, result);
 
-		private List<MessageModel> objects;
+            messageListView = (ListView) rootView.findViewById(R.id.messageListView);
+            messageListView.setAdapter(chatAdapter);
 
-		public ConversationAdapter(Context context, List<MessageModel> objects) {
-			super(context, R.id.text, objects);
+            loadingImage = (ImageView) rootView.findViewById(R.id.loadingImage);
+            loadingImage.setBackgroundColor(Color.TRANSPARENT);
+        }
+    }
 
-			this.objects = objects;
-		}
+    public class ConversationAdapter extends ArrayAdapter<MessageModel> {
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			MessageViewTemplate messageViewTemplate = null;
-			final MessageModel messageModel = objects.get(position);
+        private List<MessageModel> objects;
 
-			if (convertView == null) {
+        public ConversationAdapter(Context context, List<MessageModel> objects) {
+            super(context, R.id.text, objects);
 
-				if (messageModel.getIsMyMessage().compareTo("1") == 0) {
-					convertView = LayoutInflater.from(getContext()).inflate(R.layout.my_message_layout, null);
-				} else {
-					convertView = LayoutInflater.from(getContext()).inflate(R.layout.friend_message_layout, null);
-				}
+            this.objects = objects;
+        }
 
-				TextView text = (TextView) convertView.findViewById(R.id.text);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            MessageViewTemplate messageViewTemplate = null;
+            final MessageModel messageModel = objects.get(position);
 
-				messageViewTemplate = new MessageViewTemplate(text);
-				convertView.setTag(messageViewTemplate);
+            convertView = null;
 
-			} else {
-				messageViewTemplate = (MessageViewTemplate) convertView.getTag();
-			}
+            if (convertView == null) {
 
-			messageViewTemplate.setText(messageModel.getText());
+                if (messageModel.getIsMyMessage().compareTo("1") == 0) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.my_message_layout, null);
+                } else {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.friend_message_layout, null);
+                }
 
-			return convertView;
-		}
-	}
+                TextView text = (TextView) convertView.findViewById(R.id.text);
+                TextView dateTime = (TextView) convertView.findViewById(R.id.dateTime);
+
+                messageViewTemplate = new MessageViewTemplate(text, dateTime);
+                convertView.setTag(messageViewTemplate);
+
+            } else {
+                messageViewTemplate = (MessageViewTemplate) convertView.getTag();
+            }
+
+            messageViewTemplate.setText(messageModel.getText());
+            messageViewTemplate.setDateTime(messageModel.getTime());
+
+            return convertView;
+        }
+    }
 }
