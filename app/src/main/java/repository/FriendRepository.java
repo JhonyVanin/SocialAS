@@ -10,15 +10,15 @@ import model.FriendModel;
 public class FriendRepository {
 	public List<FriendModel> getAllFriends(String userId, String password) {
 		String response = Requester
-				.sendPost("http://netlife.by/androidApi/listFriends.php", "id=" + userId + "&pass=" + password);
+				.sendPost("http://wall-call.com/androidApi/listFriends.php", "UserId=" + userId + "&pass=" + password + "&Event=all");
 
 		return AutoMapper.MapFriendsModel(response);
 	}
 
 	public FriendModel getFriendById(String userId, String password, String friendId) {
-		String response = Requester.sendPost("http://netlife.by/androidApi/friendPage.php", "id=" + userId + "&pass=" + password
-				+ "&id_f=" + friendId);
+		String response = Requester.sendPost("http://wall-call.com/androidApi/friendPage.php", "UserId=" + userId + "&pass=" + password
+				+ "&FriendId=" + friendId);
 
-		return AutoMapper.MapSelectedeFriendModel(response);
+		return AutoMapper.MapSelectedFriendModel(response);
 	}
 }

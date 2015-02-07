@@ -14,11 +14,8 @@ import android.widget.Toast;
 
 import com.example.social.R;
 
-import java.net.URISyntaxException;
-
 import activity.MainActivity;
 import helper.Config;
-import helper.SocketIO;
 import model.LoginModel;
 import service.LoginService;
 
@@ -49,10 +46,6 @@ public class LoginPlaceholderFragment extends Fragment {
 
         login.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-
-
-
-                
                 LoginService loginService = new LoginService();
                 LoginModel loginModel = loginService.getLoginModel(email
                         .getText().toString(), password.getText().toString());

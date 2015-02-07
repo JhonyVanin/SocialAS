@@ -40,14 +40,11 @@ public class AutoMapper {
 			JSONObject jsonObject = new JSONObject(json);
 
 			FriendModel result = new FriendModel();
-			result.setUserId(jsonObject.get("id").toString());
+			result.setUserId(jsonObject.get("FriendId").toString());
 			result.setImageUri(jsonObject.get("avatar").toString());
 			result.setFirstName(jsonObject.get("firstName").toString());
 			result.setLastName(jsonObject.get("lastName").toString());
-			result.setRating(jsonObject.get("ball").toString());
-			result.setCountPostComplite(jsonObject.get("count_post_complit").toString());
-			result.setLocation("111");
-			// result.setLocation(jsonObject.get("contry_city").toString());
+			//result.setLocation(jsonObject.get("contry_city").toString());
 
 			return result;
 
@@ -58,7 +55,7 @@ public class AutoMapper {
 		return new FriendModel();
 	}
 
-	public static FriendModel MapSelectedeFriendModel(String json) {
+	public static FriendModel MapSelectedFriendModel(String json) {
 
 		try {
 			JSONObject jsonObject = new JSONObject(json);
@@ -84,8 +81,8 @@ public class AutoMapper {
 			JSONObject jsonObject = new JSONObject(json);
 
 			LoginModel result = new LoginModel();
-			result.setStatus(jsonObject.get("statys").toString());
-			result.setUserId(jsonObject.get("id").toString());
+			result.setStatus(jsonObject.get("status").toString());
+			result.setUserId(jsonObject.get("UserId").toString());
 
 			return result;
 
@@ -104,7 +101,7 @@ public class AutoMapper {
 			ProfileModel result = new ProfileModel();
 			result.setFirstName(jsonObject.get("firstName").toString());
 			result.setLastName(jsonObject.get("lastName").toString());
-			result.setImageUri(jsonObject.get("avatar").toString());
+			result.setImageUri(jsonObject.get("MiniPhoto").toString());
 			result.setCoverImageUri(jsonObject.get("ablogka").toString());
 
 			return result;
@@ -142,14 +139,14 @@ public class AutoMapper {
 			JSONObject jsonObject = new JSONObject(json);
 
 			ChatModel result = new ChatModel();
-			result.setFriendId(jsonObject.get("id").toString());
+			result.setFriendId(jsonObject.get("FriendId").toString());
 			result.setImageUri(jsonObject.get("avatar").toString());
 			result.setFirstName(jsonObject.get("firstName").toString());
 			result.setLastName(jsonObject.get("lastName").toString());
 			result.setNewMessage(String.valueOf((int) (Math.random() * 100)));
-			result.setLastMessage("����� � 12:34");
-			// result.setNewMessage(jsonObject.get("count_new_mes").toString());
-			// result.setLastMessage(jsonObject.get("last_mes").toString());
+			result.setLastMessage("Вчера в 12:34");
+			// result.setNewMessage(jsonObject.get("CountNewMes").toString());
+			// result.setLastMessage(jsonObject.get("LastMes").toString());
 
 			return result;
 

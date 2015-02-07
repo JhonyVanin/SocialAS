@@ -7,7 +7,7 @@ import model.ProfileModel;
 public class ProfileRepository {
 
 	public ProfileModel getProfileModel(String id, String password) {
-		String response = Requester.sendPost("http://netlife.by/androidApi/myPage.php", "id=" + id + "&pass=" + password);
+		String response = Requester.sendPost("http://wall-call.com/androidApi/myPage.php", "UserId=" + id + "&pass=" + password);
 
 		return AutoMapper.MapProfileModel(response);
 	}
