@@ -1,24 +1,40 @@
 package repository;
 
-import helper.AutoMapper;
-import helper.Requester;
+import org.json.JSONException;
 
 import java.util.List;
 
+import helper.AutoMapper;
+import helper.Config;
+import helper.KeyValuePairCollection;
+import helper.Requester;
 import model.FriendModel;
 
 public class FriendRepository {
-	public List<FriendModel> getAllFriends(String userId, String password) {
-		String response = Requester
-				.sendPost("http://wall-call.com/androidApi/listFriends.php", "UserId=" + userId + "&pass=" + password + "&Event=all");
+    public List<FriendModel> getAllFriends() {
 
-		return AutoMapper.MapFriendsModel(response);
-	}
+        String address = "http://wall-call.com/androidApi/listFriends.php";
 
-	public FriendModel getFriendById(String userId, String password, String friendId) {
-		String response = Requester.sendPost("http://wall-call.com/androidApi/friendPage.php", "UserId=" + userId + "&pass=" + password
-				+ "&FriendId=" + friendId);
+        KeyValuePairCollection params = new KeyValuePairCollection();
+        params.addPair("UserId", Config.getInstance().getUserId());
+        params.addPair("Password", Config.getInstance().getUserPassword());
+        params.addPair("Event", "all");
 
-		return AutoMapper.MapSelectedFriendModel(response);
-	}
+        String response = Requester.sendPost(address, params.toParams());
+        return AutoMapper.MapFriendsModel(response);
+    }
+
+    public FriendModel getFriendById(String friendId) {
+
+        String address = "http://wall-call.com/androidApi/friendPage.php";
+
+        KeyValuePairCollection params = new KeyValuePairCollection();
+        params.addPair("UserId", Config.getInstance().getUserId());
+        params.addPair("pass", Config.getInstance().getUserPassword());
+        params.addPair("FriendId", friendId);
+
+        String response = Requester.sendPost(address, params.toParams());
+
+        return AutoMapper.MapSelectedFriendModel(response);
+    }
 }

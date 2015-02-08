@@ -34,8 +34,7 @@ public class FriendProfilePlaceholderFragment extends Fragment {
 		Bundle params = getArguments();
 
 		FriendService friendService = new FriendService();
-		FriendModel friendModel = friendService.getSelectedFriend(Config.getInstance().getUserId(), Config.getInstance()
-				.getUserPassword(), params.getString("friendId"));
+		FriendModel friendModel = friendService.getSelectedFriend(params.getString("friendId"));
 
 		fullName.setText(friendModel.getFullName());
 		imageUri.setImageBitmap(ImageCache.getInstance().getImage(friendModel.getImageUri()));

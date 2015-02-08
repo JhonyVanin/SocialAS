@@ -1,5 +1,7 @@
 package service;
 
+import org.json.JSONException;
+
 import java.util.List;
 
 import model.FriendModel;
@@ -13,16 +15,16 @@ public class FriendService {
 		repository = new FriendRepository();
 	}
 
-	public List<FriendModel> getAllFriends(String userId, String password) {
-		List<FriendModel> result = repository.getAllFriends(userId, password);
+	public List<FriendModel> getAllFriends() {
+        List<FriendModel> result = repository.getAllFriends();
 
-		// TODO any logic here
+        // TODO any logic here
 
 		return result;
 	}
 	
-	public FriendModel getSelectedFriend(String userId, String password, String friendId) {
-		FriendModel result = repository.getFriendById(userId, password, friendId);
+	public FriendModel getSelectedFriend(String friendId) {
+		FriendModel result = repository.getFriendById(friendId);
 
 		// TODO any logic here
 

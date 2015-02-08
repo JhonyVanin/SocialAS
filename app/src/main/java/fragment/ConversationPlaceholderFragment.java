@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,13 @@ import android.widget.TextView;
 import com.example.social.R;
 import com.github.nkzawa.emitter.Emitter;
 
+import org.json.JSONObject;
+
 import java.net.URISyntaxException;
 import java.util.List;
 
 import helper.Config;
+import helper.KeyValuePairCollection;
 import helper.SocketIO;
 import model.MessageModel;
 import service.ChatService;
@@ -55,7 +59,15 @@ public class ConversationPlaceholderFragment extends Fragment {
             socket.setOnDataListener(OnData);
 
             socket.connect();
-            socket.send("{Place:'User',Event:'log',UserId:'" + Config.getInstance().getUserId() + "',Password:'" + Config.getInstance().getUserPassword() + "'}");
+
+            KeyValuePairCollection params = new KeyValuePairCollection();
+            params.addPair("Place", "User");
+            params.addPair("Event", "log");
+            params.addPair("UserId", Config.getInstance().getUserId());
+            params.addPair("Password", Config.getInstance().getUserPasswordMD5());
+
+            socket.send(params.toJSON());
+
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -68,12 +80,22 @@ public class ConversationPlaceholderFragment extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                MessageModel m1 = new MessageModel();
-                m1.setId(Config.getInstance().getUserId());
-                m1.setText("Привет? Как твои дела? Что делаешь? чем поиваешь?");
-                m1.setTime("18 сентября 2014 в 12:30");
-                m1.setIsMyMessage("1");
-                chatAdapter.add(m1);
+                KeyValuePairCollection params = new KeyValuePairCollection();
+                params.addPair("Place", "Chat");
+                params.addPair("Event", "SendMessag");
+                params.addPair("Message", message.getText().toString());
+                params.addPair("FriendId", friendId);
+
+                socket.send(params.toJSON());
+
+                MessageModel model = new MessageModel();
+                model.setTime("Только что");
+                model.setText(message.getText().toString());
+                model.setIsMyMessage("1");
+
+                chatAdapter.add(model);
+
+                message.setText("");
             }
         });
 
@@ -109,10 +131,20 @@ public class ConversationPlaceholderFragment extends Fragment {
     private Emitter.Listener OnData = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            try{
+                JSONObject jsonObject = new JSONObject(args[0].toString());
+                if(jsonObject.get("Event").toString().compareTo("ReceiveMessage") == 0){
 
+                    MessageModel model = new MessageModel();
+                    model.setTime("Только что");
+                    model.setText(jsonObject.get("Message").toString());
+                    model.setIsMyMessage("0");
 
+                    chatAdapter.add(model);
+                }
+            }catch (Exception ex){
 
-            int q = 1;
+            }
         }
     };
 
@@ -122,8 +154,7 @@ public class ConversationPlaceholderFragment extends Fragment {
         protected List<MessageModel> doInBackground(Void... params) {
 
             ChatService chatService = new ChatService();
-            List<MessageModel> messages = chatService.getAllMessages(Config.getInstance().getUserId(), Config.getInstance()
-                    .getUserPassword(), friendId);
+            List<MessageModel> messages = chatService.getAllMessages(friendId);
 
             return messages;
         }

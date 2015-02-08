@@ -19,7 +19,6 @@ import com.example.social.R;
 
 import java.util.List;
 
-import helper.Config;
 import helper.ImageCache;
 import model.ChatModel;
 import service.ChatService;
@@ -50,8 +49,7 @@ public class ChatPlaceholderFragment extends Fragment {
         protected List<ChatModel> doInBackground(Void... params) {
 
             ChatService chatService = new ChatService();
-            List<ChatModel> chats = chatService.getAllChats(Config.getInstance().getUserId(), Config.getInstance()
-                    .getUserPassword());
+            List<ChatModel> chats = chatService.getAllChats();
 
             return chats;
         }

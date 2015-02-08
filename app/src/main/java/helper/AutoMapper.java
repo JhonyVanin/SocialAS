@@ -61,7 +61,7 @@ public class AutoMapper {
 			JSONObject jsonObject = new JSONObject(json);
 
 			FriendModel result = new FriendModel();
-			result.setImageUri(jsonObject.get("avatar").toString());
+			result.setImageUri(jsonObject.get("MiniPhoto").toString());
 			result.setFirstName(jsonObject.get("firstName").toString());
 			result.setLastName(jsonObject.get("lastName").toString());
 			result.setCoverImageUri(jsonObject.get("ablogka").toString());
@@ -139,8 +139,8 @@ public class AutoMapper {
 			JSONObject jsonObject = new JSONObject(json);
 
 			ChatModel result = new ChatModel();
-            result.setFriendId(jsonObject.get("id").toString());
-			//result.setFriendId(jsonObject.get("FriendId").toString());
+            //result.setFriendId(jsonObject.get("id").toString());
+			result.setFriendId(jsonObject.get("FriendId").toString());
 			result.setImageUri(jsonObject.get("avatar").toString());
 			result.setFirstName(jsonObject.get("firstName").toString());
 			result.setLastName(jsonObject.get("lastName").toString());
@@ -192,7 +192,6 @@ public class AutoMapper {
 			result.setIsRead(jsonObject.get("write").toString());
 
 			return result;
-
 		} catch (Exception ex) {
 			// TODO: write error message to log file
 		}

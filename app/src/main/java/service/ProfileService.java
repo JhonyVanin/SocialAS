@@ -11,8 +11,8 @@ public class ProfileService {
 		repository = new ProfileRepository();
 	}
 
-	public ProfileModel getProfileModel(String id, String password) {
-		ProfileModel result = repository.getProfileModel(id, password);
+	public ProfileModel getProfileModel() {
+		ProfileModel result = repository.getProfileModel();
 
 		// TODO any logic here
 

@@ -50,8 +50,7 @@ public class FriendsPlaceholderFragment extends Fragment {
 		protected List<FriendModel> doInBackground(Void... params) {
 
 			FriendService friendService = new FriendService();
-			List<FriendModel> friends = friendService.getAllFriends(Config.getInstance().getUserId(), Config.getInstance()
-					.getUserPassword());
+			List<FriendModel> friends = friendService.getAllFriends();
 
 			return friends;
 		}

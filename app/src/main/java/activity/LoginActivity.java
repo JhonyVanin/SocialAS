@@ -5,9 +5,12 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.example.social.R;
 
+import org.json.JSONException;
+
 import java.net.URISyntaxException;
 
 import fragment.LoginPlaceholderFragment;
+import helper.KeyValuePairCollection;
 import helper.SocketIO;
 
 public class LoginActivity extends ActionBarActivity {

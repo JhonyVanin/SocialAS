@@ -14,8 +14,8 @@ public class ChatService {
 		repository = new ChatRepository();
 	}
 
-	public List<ChatModel> getAllChats(String userId, String password) {
-		List<ChatModel> result = repository.getAllChats(userId, password);
+	public List<ChatModel> getAllChats() {
+		List<ChatModel> result = repository.getAllChats();
 
 		// TODO any logic here
 
@@ -32,8 +32,8 @@ public class ChatService {
 		return result;
 	}
 
-	public List<MessageModel> getAllMessages(String userId, String password, String friendId) {
-		List<MessageModel> result = repository.getAllMessages(userId, password, friendId);
+	public List<MessageModel> getAllMessages(String friendId) {
+		List<MessageModel> result = repository.getAllMessages(friendId);
 
 		// TODO any logic here
 

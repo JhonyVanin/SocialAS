@@ -32,8 +32,7 @@ public class ProfilePlaceholderFragment extends Fragment {
 		coverImageUri = (ImageView) rootView.findViewById(R.id.coverImageUri);
 
 		ProfileService profileService = new ProfileService();
-		ProfileModel profileModel = profileService.getProfileModel(Config.getInstance().getUserId(), Config.getInstance()
-				.getUserPassword());
+		ProfileModel profileModel = profileService.getProfileModel();
 
 		fullName.setText(profileModel.getFullName());
 		imageUri.setImageBitmap(ImageCache.getInstance().getImage(profileModel.getImageUri()));
