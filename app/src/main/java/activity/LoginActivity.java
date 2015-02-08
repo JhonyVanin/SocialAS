@@ -5,7 +5,10 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.example.social.R;
 
+import java.net.URISyntaxException;
+
 import fragment.LoginPlaceholderFragment;
+import helper.SocketIO;
 
 public class LoginActivity extends ActionBarActivity {
 

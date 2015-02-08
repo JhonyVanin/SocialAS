@@ -139,7 +139,8 @@ public class AutoMapper {
 			JSONObject jsonObject = new JSONObject(json);
 
 			ChatModel result = new ChatModel();
-			result.setFriendId(jsonObject.get("FriendId").toString());
+            result.setFriendId(jsonObject.get("id").toString());
+			//result.setFriendId(jsonObject.get("FriendId").toString());
 			result.setImageUri(jsonObject.get("avatar").toString());
 			result.setFirstName(jsonObject.get("firstName").toString());
 			result.setLastName(jsonObject.get("lastName").toString());
@@ -184,7 +185,7 @@ public class AutoMapper {
 
 			MessageModel result = new MessageModel();
 
-			result.setId(jsonObject.get("id").toString());
+			result.setId(jsonObject.get("idMes").toString());
 			result.setIsMyMessage(jsonObject.get("vov").toString());
 			result.setText(jsonObject.get("text").toString());
 			result.setTime(jsonObject.get("dateTime").toString());

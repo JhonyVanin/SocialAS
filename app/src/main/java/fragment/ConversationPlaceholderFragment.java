@@ -16,10 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.social.R;
+import com.github.nkzawa.emitter.Emitter;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 import helper.Config;
+import helper.SocketIO;
 import model.MessageModel;
 import service.ChatService;
 import viewTemplate.MessageViewTemplate;
@@ -35,11 +38,28 @@ public class ConversationPlaceholderFragment extends Fragment {
     Button send;
     ConversationAdapter chatAdapter;
 
+    SocketIO socket;
+
     public ConversationPlaceholderFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        try {
+            socket = SocketIO.getInstance();
+
+            socket.setOnConnectListener(OnConnect);
+            socket.setOnDisconnectListener(OnDisconnect);
+            socket.setOnErrorListener(OnError);
+            socket.setOnDataListener(OnData);
+
+            socket.connect();
+            socket.send("{Place:'User',Event:'log',UserId:'" + Config.getInstance().getUserId() + "',Password:'" + Config.getInstance().getUserPassword() + "'}");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
         rootView = inflater.inflate(R.layout.fragment_conversation, container, false);
         context = inflater.getContext();
 
@@ -54,13 +74,6 @@ public class ConversationPlaceholderFragment extends Fragment {
                 m1.setTime("18 сентября 2014 в 12:30");
                 m1.setIsMyMessage("1");
                 chatAdapter.add(m1);
-
-                MessageModel m2 = new MessageModel();
-                m2.setId(Config.getInstance().getUserId());
-                m2.setText("Привет? Как твои дела? Что делаешь? чем поиваешь?");
-                m2.setTime("18 сентября 2014 в 12:30");
-                m2.setIsMyMessage("0");
-                chatAdapter.add(m2);
             }
         });
 
@@ -71,6 +84,38 @@ public class ConversationPlaceholderFragment extends Fragment {
 
         return rootView;
     }
+
+    private Emitter.Listener OnConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            //TODO OnConnect
+        }
+    };
+
+    private Emitter.Listener OnDisconnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            //TODO OnDisconnect
+        }
+    };
+
+    private Emitter.Listener OnError = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            //TODO OnError
+        }
+    };
+
+    private Emitter.Listener OnData = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+
+
+
+            int q = 1;
+        }
+    };
+
 
     public class ConversationAsyncLogic extends AsyncTask<Void, Void, List<MessageModel>> {
         @Override

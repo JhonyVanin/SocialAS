@@ -35,8 +35,8 @@ public class ChatRepository {
 	}
 
 	public List<MessageModel> getAllMessages(String userId, String password, String friendId) {
-		String response = Requester.sendPost("http://wall-call.com/androidApi/chat.php", "id=" + userId + "&pass=" + password
-				+ "&id_f=" + friendId + "&asd=viewListMeseger");
+		String response = Requester.sendPost("http://wall-call.com/androidApi/chat.php", "UserId=" + userId + "&Password=" +  MD5(password)
+				+ "&FriendId=" + friendId + "&Event=ListMessag");
 
 		return AutoMapper.MapMessagesModel(response);
 	}
