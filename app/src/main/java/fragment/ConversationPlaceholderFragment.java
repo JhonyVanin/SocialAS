@@ -4,8 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +43,7 @@ public class ConversationPlaceholderFragment extends Fragment {
     ConversationAdapter chatAdapter;
 
     SocketIO socket;
+    String globalData;
 
     public ConversationPlaceholderFragment() {
     }
@@ -131,20 +132,32 @@ public class ConversationPlaceholderFragment extends Fragment {
     private Emitter.Listener OnData = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            try{
-                JSONObject jsonObject = new JSONObject(args[0].toString());
-                if(jsonObject.get("Event").toString().compareTo("ReceiveMessage") == 0){
 
-                    MessageModel model = new MessageModel();
-                    model.setTime("Только что");
-                    model.setText(jsonObject.get("Message").toString());
-                    model.setIsMyMessage("0");
+            globalData = args[0].toString();
 
-                    chatAdapter.add(model);
-                }
-            }catch (Exception ex){
-
+            FragmentActivity activity = getActivity();
+            if (activity == null) {
+                return;
             }
+
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    try {
+                        JSONObject jsonObject = new JSONObject(globalData);
+                        if (jsonObject.get("Event").toString().compareTo("ReceiveMessage") == 0) {
+
+                            MessageModel model = new MessageModel();
+                            model.setTime("Только что");
+                            model.setText(jsonObject.get("Message").toString());
+                            model.setIsMyMessage("0");
+
+                            chatAdapter.add(model);
+                        }
+                    } catch (Exception ex) {
+
+                    }
+                }
+            });
         }
     };
 

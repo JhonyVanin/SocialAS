@@ -1,45 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#FFFFFF"
-    android:clickable="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="right"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp">
 
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/dateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:padding="5dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
         android:background="#E5F7FF"
-        android:layout_marginLeft="150dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="15dp">
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:textColor="#000000"
+        android:textSize="26sp" />
 
-        <TextView
-            android:id="@+id/dateTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="#E5F7FF"
-            android:textColor="#CCCCCC"
-            android:textSize="16sp"
-            android:gravity="left"
-            android:text="18 сентября 2014 в 12:30" />
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:padding="10dp"
-            android:background="#E5F7FF"
-            android:textColor="#000000"
-            android:textSize="26sp"
-            android:gravity="right"
-            android:text="Привет? Как твои дела? Что делаешь? чем поиваешь?" />
-
-    </LinearLayout>
-
-
-</RelativeLayout>
+</LinearLayout>
